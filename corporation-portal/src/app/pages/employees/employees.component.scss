@@ -1,0 +1,22 @@
+.sortable-headers th {
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.sortable-headers th:hover {
+  background-color: #f8f9fa;
+}
+
+.filter-row th input {
+  width: 100%;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+th:nth-child(1),
+th:nth-child(2) {
+  min-width: 150px;
+}
+
+.sortable-headers th {
+  padding: 0.75rem 0.5rem;
+}

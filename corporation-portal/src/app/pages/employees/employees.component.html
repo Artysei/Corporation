@@ -1,0 +1,146 @@
+<div class="d-flex justify-content-between align-items-center mb-2">
+  <h2>Сотрудники</h2>
+  <button class="btn btn-success" (click)="openCreate()">
+     <i class="bi bi-plus-lg"></i>
+     Создать
+  </button>
+</div>
+
+<form [formGroup]="filterForm" class="table-responsive mb-2">
+  <table class="table table-bordered align-middle mb-0 table-fixed">
+
+    <colgroup>
+      <col style="width:20%">
+      <col style="width:20%">
+      <col style="width:18%">
+      <col style="width:18%">
+      <col style="width:19%">
+      <col style="width:5%">
+    </colgroup>
+
+    <thead>
+      <tr class="sortable-headers">
+        <th (click)="changeSort('department')">
+          Отдел
+          <i *ngIf="sortField() === 'department'" class="bi"
+             [ngClass]="sortAsc() ? 'bi-caret-up-fill' : 'bi-caret-down-fill'"></i>
+        </th>
+
+        <th (click)="changeSort('name')">
+          Ф. И. О.
+          <i *ngIf="sortField() === 'name'" class="bi"
+             [ngClass]="sortAsc() ? 'bi-caret-up-fill' : 'bi-caret-down-fill'"></i>
+        </th>
+
+        <th (click)="changeSort('birth')">
+          Дата рождения
+          <i *ngIf="sortField() === 'birth'" class="bi"
+             [ngClass]="sortAsc() ? 'bi-caret-up-fill' : 'bi-caret-down-fill'"></i>
+        </th>
+
+        <th (click)="changeSort('hire')">
+          Дата устройства на работу
+          <i *ngIf="sortField() === 'hire'" class="bi"
+             [ngClass]="sortAsc() ? 'bi-caret-up-fill' : 'bi-caret-down-fill'"></i>
+        </th>
+
+        <th (click)="changeSort('salary')">
+          Заробная плата
+          <i *ngIf="sortField() === 'salary'" class="bi"
+             [ngClass]="sortAsc() ? 'bi-caret-up-fill' : 'bi-caret-down-fill'"></i>
+        </th>
+
+        <th></th>
+      </tr>
+
+      <tr class="filter-row">
+
+        <th>
+          <input type="text"
+                 formControlName="department"
+                 class="form-control form-control-sm"
+                 placeholder="Название отдела"
+                 (click)="$event.stopPropagation()">
+        </th>
+
+        <th>
+          <input type="text"
+                 formControlName="name"
+                 class="form-control form-control-sm"
+                 placeholder="Ф.И.О. сотрудника"
+                 (click)="$event.stopPropagation()">
+        </th>
+
+        <th>
+          <div class="d-flex gap-1" (click)="$event.stopPropagation()">
+            <input type="date"
+                   formControlName="bornFrom"
+                   class="form-control form-control-sm"
+                   title="От">
+            <input type="date"
+                   formControlName="bornTo"
+                   class="form-control form-control-sm"
+                   title="До">
+          </div>
+        </th>
+
+        <th>
+          <div class="d-flex gap-1" (click)="$event.stopPropagation()">
+            <input type="date"
+                   formControlName="hiredFrom"
+                   class="form-control form-control-sm"
+                   title="От">
+            <input type="date"
+                   formControlName="hiredTo"
+                   class="form-control form-control-sm"
+                   title="До">
+          </div>
+        </th>
+
+        <th>
+          <div class="d-flex gap-1" (click)="$event.stopPropagation()">
+            <input type="number"
+                   formControlName="salaryFrom"
+                   class="form-control form-control-sm"
+                   placeholder="Мин.">
+            <input type="number"
+                   formControlName="salaryTo"
+                   class="form-control form-control-sm"
+                   placeholder="Макс.">
+          </div>
+        </th>
+
+        <th class="text-center">
+          <button type="button"
+                  class="btn btn-sm btn-link p-0"
+                  title="Сбросить фильтры"
+                  (click)="filterForm.reset()">
+                  <i class="bi bi-x-lg"></i>
+                </button>
+        </th>
+      </tr>
+    </thead>
+
+    <tbody *ngIf="!loading(); else loadingTpl">
+      <tr *ngFor="let e of employees(); trackBy: trackById">
+        <td>{{ e.department }}</td>
+        <td>{{ e.fullName }}</td>
+        <td>{{ e.birthDate | date : 'dd.MM.yyyy' }}</td>
+        <td>{{ e.hireDate  | date : 'dd.MM.yyyy' }}</td>
+        <td>{{ e.salary    | number : '1.0-0'    }}</td>
+        <td class="text-nowrap">
+          <button class="btn btn-sm btn-outline-primary me-1"
+                  (click)="openEdit(e)">  <i class="bi bi-pencil-square"></i> </button>
+          <button class="btn btn-sm btn-outline-danger"
+                  (click)="confirmDelete(e.id)">  <i class="bi bi-trash-fill"> </i></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</form>
+
+<ng-template #loadingTpl>
+  <div class="text-center p-4">
+    <div class="spinner-border"></div>
+  </div>
+</ng-template>

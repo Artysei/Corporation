@@ -1,0 +1,41 @@
+<div class="modal-header">
+  <h5 class="modal-title">{{ title }}</h5>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="modal.dismiss()">
+  </button>
+</div>
+
+<form [formGroup]="form" (ngSubmit)="save()">
+  <div class="modal-body row g-3">
+    <div class="col-12">
+      <label class="form-label">Отдел</label>
+      <input type="text" class="form-control" formControlName="department" />
+    </div>
+    <div class="col-12">
+      <label class="form-label">Ф. И. О.</label>
+      <input type="text" class="form-control" formControlName="fullName" />
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Дата рождения</label>
+      <input type="date" class="form-control" formControlName="birthDate" />
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Дата устройства</label>
+      <input type="date" class="form-control" formControlName="hireDate" />
+    </div>
+    <div class="col-12">
+      <label class="form-label">Заработная плата</label>
+      <input type="number" class="form-control" formControlName="salary" />
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Отмена</button>
+    <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
+      Сохранить
+    </button>
+  </div>
+</form>
